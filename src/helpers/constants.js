@@ -1,6 +1,5 @@
 const authConfigJwt = {
-    expiresHr: 3,
-    expires: "3h",
+    expiresIn: "1h",
     issuer: "dede",
     audience: "dede",
 };

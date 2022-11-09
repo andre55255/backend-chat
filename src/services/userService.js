@@ -1,5 +1,4 @@
 const userRepo = require("../repositories/userRepository");
-const { userModel } = require("../domain/models/index");
 const { hash } = require("bcrypt");
 const { buildResult } = require("../helpers/staticMethods");
 const { logger } = require("../middlewares/logger");
@@ -35,7 +34,7 @@ const create = async (userReq) => {
             firstname,
             lastname,
             login,
-            password: hashPassword
+            password: hashPassword,
         };
         const resultCreated = await userRepo.create(userEntitySave);
         if (resultCreated.success) {
@@ -53,5 +52,5 @@ const create = async (userReq) => {
 };
 
 module.exports = {
-    create
-}
+    create,
+};

@@ -1,6 +1,7 @@
 const { logger } = require("../middlewares/logger");
 const { buildResult } = require("../helpers/staticMethods");
 const { userModel } = require("../domain/models/index");
+const moment = require("moment");
 
 const getByLogin = async (login) => {
     try {
@@ -43,8 +44,25 @@ const create = async (user) => {
     }
 };
 
+const setRefreshToken = async (id, refresh) => {
+    try {
+        const result = await userModel.findByIdAndUpdate(id, {
+            refresh,
+            updatedAt: moment()
+        });
+        if (!result) {
+            return buildResult(false, "Falha ao setar refresh token de usuário, id: " + id);
+        }
+        return buildResult(true, "Refresh token setado com sucesso para usuário, id: " + id);
+    } catch (err) {
+        logger.error("userRepository setRefreshToken - ex: " + err);
+        return buildResult(false, "Falha ao salvar refresh token de usuário");
+    }
+}
+
 module.exports = {
     getByLogin,
     getById,
-    create
+    create,
+    setRefreshToken
 };

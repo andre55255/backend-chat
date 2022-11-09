@@ -4,6 +4,7 @@ const swaggerDocument = require("../swagger.json");
 const cors = require("cors");
 const { connectMongo } = require("../domain/connectionMongo");
 const userRouter = require("../config/routes/userRouter");
+const accRouter = require("../config/routes/accountRouter");
 
 const appConfig = (app) => {
     // Load DB
@@ -25,6 +26,7 @@ const appConfig = (app) => {
 
     // Routes
     app.use("/user", userRouter);
+    app.use("/account", accRouter);
 };
 
 module.exports = { appConfig };
