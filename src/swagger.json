@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://chat-webzap-backend.herokuapp.com"
+      "url": "http://localhost:8080"
     }
   ],
   "components": {
