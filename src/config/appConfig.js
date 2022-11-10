@@ -16,9 +16,7 @@ const appConfig = (app) => {
 
     // Config Cors
     app.use(
-        cors({
-            origin: ["http://localhost:3000"],
-        })
+        cors()
     );
 
     // Config swagger

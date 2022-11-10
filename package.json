@@ -4,7 +4,8 @@
   "description": "A simple backend with chat socket io",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon ./src/server.js"
+    "dev": "nodemon ./src/server.js",
+    "start": "node ./src/server.js"
   },
   "keywords": [
     "node",
