@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 
-const validationSave = [
+const validationLogin = [
     check("login")
         .notEmpty()
         .withMessage("Login não informado")
@@ -17,4 +17,4 @@ const validationSave = [
         .withMessage("Senha deve ter entre 3 e 10 caracteres"),
 ];
 
-module.exports = { validationSave };
+module.exports = { validationLogin };

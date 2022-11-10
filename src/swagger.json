@@ -1,1 +1,126 @@
-{}
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Chat_Node",
+    "description": "API para chat, feita usando NodeJS com MongoDB",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Account",
+      "description": "Métodos para trabalhar com conta de usuário"
+    },
+    {
+      "name": "User",
+      "description": "Métodos para trabalhar com usuários"
+    }
+  ],
+  "paths": {
+    "/account/login": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Método para realizar login no sistema, passar dados no body",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "login": "string",
+                  "password": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/account/refresh": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Método para realizar refresh token no sistema, passar dados no body",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "refreshToken": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Método para criar usuário no sistema, passar dados  no body",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "firstname": "string",
+                  "lastname": "string",
+                  "login": "string",
+                  "password": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

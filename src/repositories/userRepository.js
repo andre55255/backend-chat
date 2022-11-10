@@ -19,7 +19,11 @@ const getByLogin = async (login) => {
 
 const getById = async (id) => {
     try {
-        const userSave = await userModel.findById({ id, disabledAt: null });
+        const userSave = await userModel.findById(id);
+        if (userSave.disabledAt != null) {
+            return null;
+        }
+
         if (!userSave) {
             return null;
         }

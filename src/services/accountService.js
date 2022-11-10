@@ -26,14 +26,7 @@ const login = async (loginReq) => {
             return buildResult(false, "Senha incorreta");
         }
 
-        const claimsPayload = {
-            id: user._id,
-            login: user.login
-        };
-
-        const secret = process.env.JWT_SECRET || "";
-
-        const accessToken = sign(claimsPayload, secret, authConfigJwt);
+        const accessToken = generateJwt(user);
         if (!accessToken) {
             logger.error(
                 "userService login - Falha ao criar token de acesso, login: " +
@@ -74,6 +67,86 @@ const login = async (loginReq) => {
     }
 };
 
+const generateJwt = (user) => {
+    try {
+        const claimsPayload = {
+            id: user._id,
+            login: user.login,
+        };
+
+        const secret = process.env.JWT_SECRET || "";
+
+        const accessToken = sign(claimsPayload, secret, authConfigJwt);
+
+        return accessToken;
+    } catch (err) {
+        logger.error("userService generateJwt - ex: " + err);
+        return null;
+    }
+};
+
+const refresh = async (tokensReq, idUser) => {
+    try {
+        const { refreshToken } = tokensReq;
+
+        const userSave = await userRepo.getById(idUser);
+        if (!userSave) {
+            logger.error("userService refresh - Usuário não encontrado");
+            return buildResult(false, "Usuário não encontrado");
+        }
+
+        if (userSave.refresh == refreshToken) {
+            logger.info(
+                "userService refresh - Refresh token realizado com sucesso, userId: " +
+                    idUser
+            );
+            const accessToken = generateJwt(userSave);
+            if (!accessToken) {
+                logger.error(
+                    "userService refresh - Falha ao criar novo token de acesso, login: " +
+                        userSave.login
+                );
+                return buildResult(
+                    false,
+                    "Falha ao criar novo token de acesso"
+                );
+            }
+
+            const refreshToken = await hash(login + moment(), 2);
+            if (!refreshToken) {
+                logger.error(
+                    "userService refresh - Falha ao gerar novo refresh token, login: " +
+                        login
+                );
+                return buildResult(false, "Falha ao gerar novo refresh token");
+            }
+
+            const resultSetRefresh = await userRepo.setRefreshToken(
+                userSave._id,
+                refreshToken
+            );
+            if (!resultSetRefresh) {
+                logger.error(resultSetRefresh.message);
+                return buildResult(resultSetRefresh.message);
+            }
+
+            return buildResult(true, "Refresh token realizado com sucesso", {
+                accessToken,
+                refreshToken,
+            });
+        }
+
+        logger.error(
+            `userService refresh - Refresh token incorreto, login: ${userSave.login}. Banco: ${userSave.refresh}, Informado: ${refreshToken}`
+        );
+        return buildResult(false, "Refresh token incorreto para o usuário, login: " + userSave.login);
+    } catch (err) {
+        logger.error("userService refresh - ex: " + err);
+        return buildResult(false, "Falha ao realizar login refresh token");
+    }
+};
+
 module.exports = {
     login,
+    refresh
 };
