@@ -1,8 +1,11 @@
 const express = require("express");
+
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("../swagger.json");
+
 const cors = require("cors");
 const { connectMongo } = require("../domain/connectionMongo");
+
 const userRouter = require("../config/routes/userRouter");
 const accRouter = require("../config/routes/accountRouter");
 

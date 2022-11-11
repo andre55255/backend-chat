@@ -3,10 +3,16 @@ require("dotenv").config();
 const { logger } = require("./middlewares/logger");
 const { appConfig } = require("./config/appConfig");
 
+// Config server http
 const express = require("express");
 const app = express();
 appConfig(app);
 
-const PORT_SERVER = process.env.PORT || 8081;
+// Config server sockets
+const serverWs = require("http").createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(serverWs);
 
-app.listen(PORT_SERVER, () => logger.info(`Listening in port ${PORT_SERVER}`));
+const PORT_SERVER = process.env.PORT || 8080;
+
+serverWs.listen(PORT_SERVER, () => logger.info(`Listening in port ${PORT_SERVER}`));
