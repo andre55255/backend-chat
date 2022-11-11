@@ -41,7 +41,7 @@ const create = async (userReq) => {
             logger.info("userService create - Usuário criado, login: " + login);
             return resultCreated;
         }
-        logger.info(
+        logger.error(
             `userService create - Falha ao criar usuário, login ${login}, exceção: ${resultCreated.message}`
         );
         return buildResult(false, "Falha ao criar usuário");
