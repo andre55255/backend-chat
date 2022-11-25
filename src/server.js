@@ -13,6 +13,15 @@ const serverWs = require("http").createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(serverWs);
 
+// Handle Sockets
+const { middlewareAuth } = require("./sockets/middlewareAuth");
+middlewareAuth(io);
+
+const { handleConnection } = require("./sockets/handleConnection");
+handleConnection(io);
+
 const PORT_SERVER = process.env.PORT || 8080;
 
-serverWs.listen(PORT_SERVER, () => logger.info(`Listening in port ${PORT_SERVER}`));
+serverWs.listen(PORT_SERVER, () =>
+    logger.info(`Listening in port ${PORT_SERVER}`)
+);
