@@ -33,7 +33,7 @@ const previousMessageBroadcast = async (socket) => {
 
 const emitMessageBroadcast = (socket) => {
     try {
-        socket.on(eventsSockets.sendMessageBroadcast, async (message) => {
+        socket.on(eventsSockets.sendMessageBroadcast, async ({ message }) => {
             const resultCreateMsg = await createMessage({
                 room: "*",
                 userSend: socket.user.id,
@@ -44,7 +44,12 @@ const emitMessageBroadcast = (socket) => {
                 throw new Error(resultCreateMsg.message);
             }
 
-            socket.broadcast.emit(eventsSockets.receiveMessageBroadcast, message);
+            socket.broadcast.emit(eventsSockets.receiveMessageBroadcast, {
+                room: "*",
+                userSend: socket.user.id,
+                destination: "*",
+                message,
+            });
         });
     } catch (err) {
         logger.error("sockets sendMessageBroadcast - Exceção: " + err);
