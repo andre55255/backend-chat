@@ -1,0 +1,8 @@
+FROM node:16
+WORKDIR /app-chat-node
+ARG PORT_BUILD=8080
+ENV PORT=${PORT_BUILD}
+EXPOSE ${PORT_BUILD}
+COPY . .
+RUN yarn
+ENTRYPOINT yarn dev
