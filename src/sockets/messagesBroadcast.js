@@ -44,7 +44,7 @@ const emitMessageBroadcast = (socket) => {
                 throw new Error(resultCreateMsg.message);
             }
 
-            socket.broadcast.emit(eventsSockets.receiveMessageBroadcast, message);
+            socket.broadcast.emit(eventsSockets.receiveMessageBroadcast, resultCreateMsg.object);
         });
     } catch (err) {
         logger.error("sockets sendMessageBroadcast - Exceção: " + err);

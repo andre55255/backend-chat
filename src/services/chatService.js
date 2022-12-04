@@ -55,7 +55,7 @@ const createMessage = async (model) => {
         logger.info(
             "Mensagem inserida com sucesso, obj: " + JSON.stringify(model)
         );
-        return buildResult(true, "Mensagem inserida com sucesso");
+        return buildResult(true, "Mensagem inserida com sucesso", resultCreateMsg.object);
     } catch (err) {
         logger.error("chatService createMessage - ex: " + err);
         return buildResult(false, "Falha ao inserir mensagem na base de dados");
