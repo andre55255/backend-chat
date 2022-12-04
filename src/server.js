@@ -11,7 +11,12 @@ appConfig(app);
 // Config server sockets
 const serverWs = require("http").createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(serverWs);
+const urlCors = process.env.URL_CORS || "";
+const io = new Server(serverWs, {
+    cors: {
+        origin: urlCors,
+    },
+});
 
 // Handle Sockets
 const { middlewareAuth } = require("./sockets/middlewareAuth");

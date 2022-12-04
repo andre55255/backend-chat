@@ -33,7 +33,7 @@ const previousMessageBroadcast = async (socket) => {
 
 const emitMessageBroadcast = (socket) => {
     try {
-        socket.on(eventsSockets.sendMessageBroadcast, async (message) => {
+        socket.on(eventsSockets.sendMessageBroadcast, async ({ message }) => {
             const resultCreateMsg = await createMessage({
                 room: "*",
                 userSend: socket.user.id,
