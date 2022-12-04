@@ -47,11 +47,44 @@ const refresh = async (req, res) => {
         logger.error("accountController refresh - Exceção: " + err);
         return res
             .status(500)
-            .json(buildApiResponse(false, 500, "Falha ao realizar refresh token"));
+            .json(
+                buildApiResponse(false, 500, "Falha ao realizar refresh token")
+            );
+    }
+};
+
+const userInfo = async (req, res) => {
+    try {
+        logger.info("Acessado POST /account/userInfo");
+        const { id } = req.user;
+
+        const result = await accService.getById(id);
+        if (!result || !result.success) {
+            return res
+                .status(400)
+                .json(
+                    buildApiResponse(false, 400, result.message, result.object)
+                );
+        }
+        return res
+            .status(200)
+            .json(buildApiResponse(true, 200, result.message, result.object));
+    } catch (err) {
+        logger.error("accountController userInfo - Exceção: " + err);
+        return res
+            .status(500)
+            .json(
+                buildApiResponse(
+                    false,
+                    500,
+                    "Falha ao realizar busca de informações de usuário logado"
+                )
+            );
     }
 };
 
 module.exports = {
     login,
-    refresh
-}
+    refresh,
+    userInfo,
+};

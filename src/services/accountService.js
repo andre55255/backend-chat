@@ -146,7 +146,27 @@ const refresh = async (tokensReq, idUser) => {
     }
 };
 
+const getById = async (id) => {
+    try {
+        const user = await userRepo.getById(id);
+        if (!user) {
+            logger.error("userService getById - Usuário não encontrado, id: " + id);
+            return buildResult(false, "Usuário não encontrado");
+        }
+        return buildResult(true, "Usuário listado com sucesso", {
+            _id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            login: user.login
+        });
+    } catch (err) {
+        logger.error("userService getById - ex: " + err);
+        return buildResult(false, "Falha ao buscar usuário por id");
+    }
+}
+
 module.exports = {
     login,
-    refresh
+    refresh,
+    getById
 };

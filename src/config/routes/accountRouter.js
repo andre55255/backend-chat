@@ -15,4 +15,6 @@ router.post(
     accController.refresh
 );
 
+router.get("/userInfo", authorize, accController.userInfo);
+
 module.exports = router;

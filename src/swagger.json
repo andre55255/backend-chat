@@ -91,6 +91,22 @@
         }
       }
     },
+    "/account/userInfo": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Método para realizar busca de usuário logado no sistema",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
     "/user": {
       "post": {
         "tags": [
